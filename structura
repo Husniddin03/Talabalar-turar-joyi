@@ -1,0 +1,8 @@
+your-project/
+│
+├── app/              (Laravel project files)
+├── docker-compose.yml
+├── Dockerfile
+├── nginx/
+│   └── default.conf
+└── .env              (Laravel konfiguratsiyasi)
