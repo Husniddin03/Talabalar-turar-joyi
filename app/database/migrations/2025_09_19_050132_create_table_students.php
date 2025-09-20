@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('student_phone'); // Talaba tel
             $table->string('parents_phone'); // Ota-ona tel
             $table->enum('address_type', ['Yotoqxona', 'Ijara']); // Manzil turi
-            $table->enum('housing_type', ['dormitory', 'rented']); // yashash turi
+            $table->enum('housing_type', ['dormitory', 'rental']); // yashash turi
             $table->string('address'); // Manzil (xona raqami, ko‘cha va h.k.)
             $table->string('owner'); // Uy/yotoqxona egasi yoki universitet
             $table->string('owner_phone'); // Uy/yotoqxona egasi tel

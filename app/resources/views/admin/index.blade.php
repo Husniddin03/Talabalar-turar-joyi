@@ -1,66 +1,218 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div class="container">
-    <h1>Talabalar ro'yxati (Admin)</h1>
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    <a href="{{ route('admin.students.create') }}" class="btn btn-primary mb-3">+ Yangi talaba qo'shish</a>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>F.I.O</th>
-                <th>Jinsi</th>
-                <th>JSHSHR</th>
-                <th>Pasport ID</th>
-                <th>Fakultet</th>
-                <th>Kurs</th>
-                <th>Guruh</th>
-                <th>Talaba tel</th>
-                <th>Ota-ona tel</th>
-                <th>Manzil turi</th>
-                <th>Yashash turi</th>
-                <th>Manzil</th>
-                <th>Ega</th>
-                <th>Ega tel</th>
-                <th>Narxi</th>
-                <th>Shartnoma</th>
-                <th>Amallar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($students as $student)
-            <tr>
-                <td>{{ $student->id }}</td>
-                <td>{{ $student->full_name }}</td>
-                <td>{{ $student->gender }}</td>
-                <td>{{ $student->jshshr }}</td>
-                <td>{{ $student->passport_id }}</td>
-                <td>{{ $student->faculty }}</td>
-                <td>{{ $student->course }}</td>
-                <td>{{ $student->group }}</td>
-                <td>{{ $student->student_phone }}</td>
-                <td>{{ $student->parents_phone }}</td>
-                <td>{{ $student->address_type }}</td>
-                <td>{{ $student->housing_type }}</td>
-                <td>{{ $student->address }}</td>
-                <td>{{ $student->owner }}</td>
-                <td>{{ $student->owner_phone }}</td>
-                <td>{{ $student->price }}</td>
-                <td>{{ $student->contract }}</td>
-                <td>
-                    <a href="{{ route('admin.students.edit', $student->id) }}" class="btn btn-sm btn-warning">Tahrirlash</a>
-                    <form action="{{ route('admin.students.destroy', $student->id) }}" method="POST" style="display:inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('O‘chirishga ishonchingiz komilmi?')">O‘chirish</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Talabalar Yashash Joylari</title>
+
+    <!-- CSS ulash -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                        </svg>
+                    </div>
+                    <div class="title-section">
+                        <h1>Talabalar Yashash Joylari</h1>
+                        <p>Universitet talabalarining yashash joylari tizimi</p>
+                    </div>
+                </div>
+
+                <nav class="nav-tabs">
+                    <button class="tab-btn active" data-tab="all">
+                        Barchasi
+                        <span class="count" id="all-count">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="dormitory">
+                        Yotoqxona
+                        <span class="count" id="dormitory-count">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="rental">
+                        Ijara
+                        <span class="count" id="rental-count">0</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Statistics -->
+            <div class="statistics" id="statistics">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p>Jami talabalar</p>
+                        <span id="total-students">0</span>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-green">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 21h18" />
+                            <path d="M5 21V7l8-4v18" />
+                            <path d="M19 21V11l-6-4" />
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p>Yotoqxonada</p>
+                        <span id="dormitory-students">0</span>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-orange">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                            <polyline points="9,22 9,12 15,12 15,22" />
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p>Ijarada</p>
+                        <span id="rental-students">0</span>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-purple">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p>Fakultetlar</p>
+                        <span id="faculties-count">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                    </svg>
+                    <input type="text" id="search-input"
+                        placeholder="Talaba ismi, fakulteti, guruhi yoki telefon raqami bo'yicha qidiring...">
+                    <button class="clear-btn" id="clear-search" style="display: none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Add Student Button -->
+            <div class="add-btn-container" style="text-align: right; margin-bottom: 20px;">
+                <a href="{{ route('admin.create') }}" class="add-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Talaba qo'shish
+                </a>
+            </div>
+            <!-- Students Table -->
+            <div class="table-container" id="table-container">
+                <!-- Desktop Table -->
+                <div class="desktop-table">
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Talaba rasmi</th>
+                                <th>F.I.O</th>
+                                <th>Jinsi</th>
+                                <th>JSHSHR</th>
+                                <th>Pasport ID</th>
+                                <th>Fakultet</th>
+                                <th>Kurs</th>
+                                <th>Guruh</th>
+                                <th>Talaba tel</th>
+                                <th>Ota-ona tel</th>
+                                <th>TJ turi</th>
+                                <th>TJ manzili | Xona raqami</th>
+                                <th>TJ egasi | Komendat</th>
+                                <th>TJ egasining | Komendat raqami</th>
+                                <th>TJ narxi</th>
+                                <th>Shartnoma</th>
+                                <th>Xonadoshlar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-tbody">
+                            <!-- Students will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Cards -->
+                <div class="mobile-cards" id="mobile-cards">
+                    <!-- Mobile cards will be inserted here -->
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results" id="no-results" style="display: none;">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>Hech qanday talaba topilmadi</h3>
+                    <p>Qidiruv shartlaringizni o'zgartirib ko'ring yoki boshqa bo'limni tanlang</p>
+                </div>
+            </div>
+
+            <!-- Results Info -->
+            <div class="results-info" id="results-info"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Universitet Talabalar Yashash Joylari Tizimi. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <!-- JS ulash -->
+    <script>
+        const studentsData = @json($students);
+        // console.log(studentsData);
+    </script>
+    <script src="{{ asset('js/admin.js') }}"></script>
+</body>
+
+</html>
+
+
+{{-- 
+
+--}}

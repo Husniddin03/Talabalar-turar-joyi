@@ -122,7 +122,8 @@ function filterStudents() {
     if (currentSearchTerm) {
         const searchLower = currentSearchTerm.toLowerCase();
         filtered = filtered.filter((student) => {
-            const fullName = `${student.fullName}`.toLowerCase();
+            const fullName =
+                `${student.fullName}`.toLowerCase();
             return (
                 fullName.includes(searchLower) ||
                 student.faculty.toLowerCase().includes(searchLower) ||
@@ -189,15 +190,22 @@ function renderDesktopTable(students) {
             src="${student.image}" alt="">
             </td>
             <td>
-                <div class="student-name">${student.fullName}</div>
+                <div class="student-name"><a href="/admin/${student.id}">${student.fullName}</a></div>
             </td>
             <td>${student.gender}</td>
+            <td>${student.jshshr}</td>
+            <td>${student.passportId}</td>
             <td>${student.faculty}</td>
             <td>${student.course}-kurs</td>
             <td><strong>${student.group}</strong></td>
             <td>${student.studentPhone}</td>
+            <td>${student.parentsPhone}</td>
             <td>${student.addressType}</td>
             <td>${student.address}</td>
+            <td>${student.owner}</td>
+            <td>${student.ownerPhone}</td>
+            <td>${student.price}</td>
+            <td>${student.contract}</td>
             <td>${student.roommates.join(", ")}</td>
         `;
 
@@ -226,11 +234,8 @@ function renderMobileCards(students) {
             border-radius: 6px;   
             box-shadow: 0 1px 4px rgba(0,0,0,0.15);
             background-color: #f4f4f4; " 
-            src="${student.image}" alt="">
-            </div>
-                    <div class="student-name-mobile"><a href="/admin/${
-                        student.id
-                    }">${student.fullName}</a></div>
+            src="${student.image}" alt=""></div>
+                    <div class="student-name-mobile"><a href="/admin/${student.id}">${student.fullName}</a></div>
 
                     <span class="housing-badge housing-${student.addressType}">
                         ${
@@ -249,6 +254,14 @@ function renderMobileCards(students) {
                         <strong>${student.gender}</strong>
                     </div>
                 <div class="detail-row">
+                    <strong>JSHSHR:</strong>
+                    <strong>${student.jshshr}</strong>
+                </div>
+                <div class="detail-row">
+                    <strong>Paaposrt ID:</strong>
+                    <strong>${student.passportId}</strong>
+                </div>
+                <div class="detail-row">
                     <strong>Fakultet:</strong>
                     <strong>${student.faculty}</strong>
                 </div>
@@ -263,12 +276,17 @@ function renderMobileCards(students) {
                 
                 <div class="detail-row">
                     <strong>Talaba nomeri:</strong>
-                    <a href="tel:${
-                        student.studentPhone
-                    }" class="student-phone">${student.studentPhone}</a>
+                    <a href="tel:${student.studentPhone}" class="student-phone">${
+            student.studentPhone
+        }</a>
                 </div>
 
-                
+                <div class="detail-row">
+                    <strong>Ota-ona nomeri:</strong>
+                    <a href="tel:${student.parentsPhone}" class="student-phone">${
+            student.parentsPhone
+        }</a>
+                </div>
                 
                 <div class="detail-row">
                     <strong>TJ turi:</strong>
@@ -277,6 +295,22 @@ function renderMobileCards(students) {
                 <div class="detail-row">
                     <strong>Manzili:</strong>
                     <span>${student.address}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>TJ egasi:</strong>
+                    <span>${student.owner}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>TJ nomeri:</strong>
+                    <span>${student.ownerPhone}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>TJ narxi:</strong>
+                    <span>${student.price}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Shartnoma:</strong>
+                    <span>${student.contract}</span>
                 </div>
                 <div class="detail-row">
                     <strong>Xonadoshlar:</strong>

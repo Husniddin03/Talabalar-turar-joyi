@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,21 +144,14 @@
                         <thead>
                             <tr>
                                 <th>Talaba rasmi</th>
-                                <th>Ism va Familiya Otasining Ismi</th>
+                                <th>F.I.O</th>
                                 <th>Jinsi</th>
-                                <th>JSHSHR</th>
-                                <th>Pasport ID raqami</th>
                                 <th>Fakultet</th>
                                 <th>Kurs</th>
                                 <th>Guruh</th>
-                                <th>Talaba Telefoni</th>
-                                <th>Ota-ona Telefoni</th>
-                                <th>Turar joyi turi</th>
-                                <th>Turar joyi manzili | Xona raqami</th>
-                                <th>Turar joy egasi | Komendat</th>
-                                <th>Turar joy egasining | Komendat raqami</th>
-                                <th>Turar joy narxi</th>
-                                <th>Shartnoma</th>
+                                <th>Talaba tel</th>
+                                <th>TJ turi</th>
+                                <th>TJ manzili | Xona raqami</th>
                                 <th>Xonadoshlar</th>
                             </tr>
                         </thead>
@@ -193,6 +187,10 @@
     </footer>
 
     <!-- JS ulash -->
+    <script>
+        const studentsData = @json($students);
+        // console.log(studentsData);
+    </script>
     <script src="{{ asset('js/script.js') }}"></script>
 </body>
 
