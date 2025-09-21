@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Human;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -97,6 +98,12 @@ class AdminController extends Controller
             $validated['image'] = $path;
         }
 
+        Human::create([
+            'jshshr' => $validated['jshshr'],
+            'passport_id' => $validated['passport_id'],
+            'role' => 'student',
+        ]);
+
 
         Student::create($validated);
         return redirect()->route('admin.index')->with('success', "Talaba muvaffaqiyatli qo'shildi!");
@@ -146,6 +153,13 @@ class AdminController extends Controller
             $validated['image'] = $path;
         }
 
+        $human = Human::findOrFail($id);
+        $human->update([
+            'jshshr' => $validated['jshshr'],
+            'passport_id' => $validated['passport_id'],
+        ]);
+
+
         $student->update($validated);
         return redirect()->route('admin.index')->with('success', 'Talaba yangilandi!');
     }
@@ -163,6 +177,7 @@ class AdminController extends Controller
         ) {
             @unlink(public_path("storage/" . $student->image));
         }
+        Human::where('jshshr', $student->jshshr)->delete();
         $student->delete();
         return redirect()->route('admin.index')->with('success', "Talaba o'chirildi!");
     }

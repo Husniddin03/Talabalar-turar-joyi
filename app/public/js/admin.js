@@ -227,8 +227,8 @@ function renderMobileCards(students) {
                 <div>
 
                     <div class="student-name-mobile"><img style="display: block;       
-            width: 80px;         
-            height: 80px;         
+            width: auto;         
+            height: auto;         
             max-width: 100%;      
             object-fit: cover;    
             border-radius: 6px;   
@@ -269,7 +269,9 @@ function renderMobileCards(students) {
                 <div class="detail-row">
                     <strong>Kursi:</strong>
                     <span>${student.course}-kurs</span>
-                    
+                </div>
+                
+                <div class="detail-row">
                     <strong>Guruhi:</strong>
                     <span>${student.group}</span>
                 </div>

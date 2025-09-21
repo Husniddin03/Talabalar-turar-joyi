@@ -144,16 +144,6 @@
                     </svg>
                     Talaba qo'shish
                 </a>
-                <a href="{{ route('humans.index') }}" style="margin-left: 10px; !important;" class="add-btn">
-                    Adminlar
-                </a>
-
-                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="add-btn" style="background-color: #e74c3c; margin-left: 10px;">
-                        Chiqish
-                    </button>
-                </form>
             </div>
             <!-- Students Table -->
             <div class="table-container" id="table-container">
@@ -221,8 +211,3 @@
 </body>
 
 </html>
-
-
-{{-- 
-
---}}
